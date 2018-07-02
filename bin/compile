@@ -40,6 +40,9 @@ echo "moved"
 rm wildfly-$WILDFLY_VERSION.tar.gz
 echo "done"
 
+echo "patching wildfly"
+curl -0 https://sourceforge.net/projects/hibernate/files/hibernate-validator/6.0.4.Final/hibernate-validator-6.0.4.Final-dist.zip/download
+
 echo -n "-----> Deploying war file(s)... "
 cp target/*.war $JBOSS_HOME/standalone/deployments/
 echo "done"
