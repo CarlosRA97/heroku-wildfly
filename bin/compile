@@ -20,8 +20,7 @@ curl --retry 3 --silent --location $JVM_COMMON_BUILDPACK | tar xzm -C /tmp/jvm-c
 
 install_java_with_overlay ${BUILD_DIR}
 
-WILDFLY_VERSION="10.1.0.Final"
-WILDFLY_SHA1="9ee3c0255e2e6007d502223916cefad2a1a5e333"
+WILDFLY_VERSION="13.0.0.Final"
 JBOSS_HOME=".jboss/wildfly-${WILDFLY_VERSION}"
 
 cd $BUILD_DIR
@@ -31,17 +30,11 @@ mkdir -p .jboss
 echo -n "-----> Installing Wildfly ${WILDFLY_VERSION}... "
 curl -O http://download.jboss.org/wildfly/$WILDFLY_VERSION/wildfly-$WILDFLY_VERSION.tar.gz
 echo "downloaded"
-sha1sum wildfly-$WILDFLY_VERSION.tar.gz | grep $WILDFLY_SHA1 > /dev/null 2>&1
-echo "verified"
-tar xf wildfly-$WILDFLY_VERSION.tar.gz
 echo "extracted"
 mv wildfly-$WILDFLY_VERSION $JBOSS_HOME
 echo "moved"
 rm wildfly-$WILDFLY_VERSION.tar.gz
 echo "done"
-
-echo "patching wildfly"
-curl -0 https://sourceforge.net/projects/hibernate/files/hibernate-validator/6.0.4.Final/hibernate-validator-6.0.4.Final-dist.zip/download
 
 echo -n "-----> Deploying war file(s)... "
 cp target/*.war $JBOSS_HOME/standalone/deployments/
@@ -52,7 +45,7 @@ if [ -f $BUILD_DIR/Procfile ]; then
   echo "        - Using existing process types"
 else
   cat << EOF > $BUILD_DIR/Procfile
-web: \$JBOSS_HOME/bin/standalone.sh
+web: \$JBOSS_HOME/bin/standalone.sh -b=0.0.0.0 -Djboss.http.port=\$PORT
 EOF
 fi
 
