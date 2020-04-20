@@ -28,7 +28,7 @@ cd $BUILD_DIR
 mkdir -p .jboss
 
 echo -n "-----> Installing Wildfly ${WILDFLY_VERSION}... "
-curl -O http://download.jboss.org/wildfly/${WILDFLY_VERSION}/wildfly-${WILDFLY_VERSION}.tar.gz
+curl -O https://download.jboss.org/wildfly/${WILDFLY_VERSION}/wildfly-${WILDFLY_VERSION}.tar.gz
 echo "downloaded"
 tar xzf wildfly-$WILDFLY_VERSION.tar.gz
 echo "extracted"
